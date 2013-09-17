@@ -1,1 +1,40 @@
-game.erb
+<h2>Blackjack!</h2>
+
+<p>Welcome to the Blackjack table, <%= session[:username] %> </p>
+
+<p>Dealer's Cards</p>
+<% session[:dealer_cards].each do |card| %>
+  <ul>
+    <li> <%= card.to_s %> </li>
+  </ul>
+<% end %>
+<p>Value is <%= best_value(session[:dealer_cards]) %></p>
+
+<br />
+
+<p> <%= session[:username] %>'s Cards </p>
+<% session[:player_cards].each do |card| %>
+  <ul>
+    <li> <%= card.to_s %> </li>
+  </ul>
+<% end %>
+<p>Value is <%= best_value(session[:player_cards]) %></p>
+
+<br />
+
+<% if best_value(session[:player_cards]) == 21 %>
+  <p> Congratulations, you hit Blackjack! </p>
+  <% @show_player_options = false %>
+<% end %>
+
+<% if @show_player_options %>
+
+  <p> What would you like to do? </p>
+  <form action='/stay' method='post'>
+    <button class="btn btn-primary" type="submit">Stay!</button>
+  </form>
+
+  <form action='/hit' method='post'>
+    <button class="btn btn-success" type="submit">Hit!</button>
+  </form>
+<% end %>
