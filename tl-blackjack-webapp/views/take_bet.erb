@@ -1,0 +1,11 @@
+<form action='/take_bet' method='post'>
+  <fieldset>
+    <legend>Welcome to Blackjack!</legend>
+    <label>How much would you like to bet this round? The ante is 5.</label>
+    <div class="input-append">
+      <input class="span2" id="appendedInputButton" type="text" placeholder="Your bet…" name="bet">
+      <button type="submit" class="btn">Submit</button>
+    </div>
+    <label>Current balance: <%= session[:balance] %></label>
+  </fieldset>
+</form>

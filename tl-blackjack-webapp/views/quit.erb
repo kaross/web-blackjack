@@ -1,0 +1,5 @@
+<h2> Thanks for playing!!! </h2>
+<% if session[:balance] < 5 %>
+  Your balance is insufficient to continue.
+<% end %>
+<a href='/get_name'>Start Over</a>

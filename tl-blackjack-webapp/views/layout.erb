@@ -18,6 +18,10 @@
                   Hello, Guest!
                 <% end %>
               </a></li>
+              <li><a href="/">
+                Start Over
+              </a></li>
+
             </ul>
         </div>
       </div>
@@ -30,6 +34,10 @@
     <% if @msg %>
       <div class="alert alert-notice"><%=@msg%></div>
     <% end %>
+    <% if @success %>
+      <div class="alert alert-success"><%=@success%></div>
+    <% end %>
+
       <%= yield %>
   </div>
   </body>

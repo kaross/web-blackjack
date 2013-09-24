@@ -1,31 +1,63 @@
 <h2>Blackjack!</h2>
 
-<p>Welcome to the Blackjack table, <%= session[:username] %> </p>
+<% if @show_play_again %>
+  <p> Would you like to play another round?</p>
+  <div class="row">  
+    <form action='/take_bet' method='get'>
+      <button class="span1 btn btn-primary" type="submit">Yes!</button>
+    </form>
 
-<p>Dealer's Cards</p>
-<% session[:dealer_cards].each do |card| %>
-  <ul>
-    <li> <%= card.to_s %> </li>
-  </ul>
+    <form action='/quit' method='post'>
+      <button class="span1 btn" type="submit">No!</button>
+    </form>
+  </div>
+<% else %>
+  <p>Welcome to the Blackjack table, <%= session[:username] %> </p>
 <% end %>
-<p>Value is <%= best_value(session[:dealer_cards]) %></p>
 
-<br />
+<div class="well">
+  <h5>Dealer's Cards</h5>
+  <div class="row">
+    <% session[:dealer_cards].each_index do |idx| %>
+      <% if !session[:player_stay] && idx == 0 %>
+        <div class="span2"> <img src="/images/cards/cover.jpg" class="image-rounded"> </div>
+      <% else %>
+        <div class="span2"> <%= show_card(session[:dealer_cards][idx]) %> </div>
+      <% end %>
+    <% end %>
+  </div>
 
-<p> <%= session[:username] %>'s Cards </p>
-<% session[:player_cards].each do |card| %>
-  <ul>
-    <li> <%= card.to_s %> </li>
-  </ul>
-<% end %>
-<p>Value is <%= best_value(session[:player_cards]) %></p>
+  <br />
 
-<br />
+  <% if session[:player_stay] %>
+    <p>Dealer has <%= "#{best_value(session[:dealer_cards])} #{@dealer_status}" %></p>
+  <% end %>
 
-<% if best_value(session[:player_cards]) == 21 %>
-  <p> Congratulations, you hit Blackjack! </p>
-  <% @show_player_options = false %>
-<% end %>
+  <% if @show_dealer_turn %>
+    <form action='dealer_turn' method='post'>
+      <button class="btn btn-danger" type="submit">Show next</button>
+    </form>
+
+    <br />
+  <% end %>
+</div>
+
+
+<div class="well">
+  <h5> <%= session[:username] %>'s Cards </h5>
+  <div class="row">
+    <% session[:player_cards].each do |card| %>
+      <div class="span2"> <%= show_card(card) %> </div>
+    <% end %>
+  </div>
+  <% if session[:player_stay] %>
+    <p> <%= "#{session[:username]} stayed with #{best_value(session[:player_cards])}" %> </p>
+  <% else %>
+    <p>Current value is <%= best_value(session[:player_cards]) %></p>
+  <% end %>
+  <p> <%= "#{session[:username]}'s bet is #{session[:bet]} and remaining balance is #{session[:balance].to_i}"%> </p>
+</div>
+
 
 <% if @show_player_options %>
 
