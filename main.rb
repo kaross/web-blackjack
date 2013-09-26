@@ -89,7 +89,7 @@ get '/take_bet' do
 end
 
 post '/take_bet' do
-  if params['bet'].empty? || params['bet'].to_i < 5
+  if params['bet'].empty? || params['bet'].to_i < 5 || params['bet'].to_i > session[:balance].to_i
     @error = "Please enter a valid bet"
     halt erb :take_bet
   end
@@ -143,6 +143,7 @@ post '/hit' do
   session[:player_cards] << session[:deck].pop
   if best_value(session[:player_cards]) > 21
     @error = "Sorry, you busted on this hand."
+    @show_play_again = true
     @show_player_options = false
     @show_dealer_turn = false
   else 
@@ -206,6 +207,10 @@ get '/results' do
 end
 
 get '/quit' do
+  erb :quit
+end
+
+post '/quit' do
   erb :quit
 end
 
